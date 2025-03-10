@@ -1,0 +1,133 @@
+# 1. **Install and load the Tidyverse**: If you haven't already, install the `tidyverse` package and load it into your R session.
+
+```{r}
+
+#install.packages("tidyverse")
+library(tidyverse)
+library(ggplot2)
+```
+
+
+# 2. **Create a data frame:** Use the following code to create a sample data frame for this exercise.
+```{r}
+employees <- data.frame(
+		  ID = 1:6,
+		  Name = c("Alice", "Bob", "Charlie", "David", "Eve", "Frank"),
+		  Age = c(25, 30, 35, 40, 45, 50),
+		  Department = c("HR", "IT", "Finance", "IT", "HR", "Finance"),
+		  Salary = c(50000, 60000, 70000, 80000, 55000, 75000)
+		)
+
+```
+
+#This data frame contains information about employees, including their ID, name, age, department, and salary.
+
+## Tasks
+
+### Task 1: Explore the Data
+1. Print the employees data frame to the console.
+2. Use the str() function to inspect the structure of the data frame.
+3. Use the summary() function to get a summary of the data.
+
+```{r}
+print(employees)
+str(employees)
+summary(employees)
+
+```
+
+
+### Task 2: Basic Data Manipulation with dplyr
+
+1. Filter rows: Create a new data frame that includes only employees who work in the "IT" department.
+```{r}
+it_dep <- employees %>% filter(Department == "IT")
+print(it_dep)
+
+```
+
+2. Select columns: Create a new data frame that includes only the Name and Salary columns.
+
+```{r}
+name_salary <- employees %>% select (Name, Salary)
+print(name_salary)
+```
+
+3. Add a new column: Add a new column called Bonus that calculates a 10% bonus for each employee based on their salary.
+
+```{r}
+employees_bonus <- employees %>% mutate(Bonus = Salary * 0.1)
+print(employees_bonus)
+```
+
+4. Sort rows: Sort the employees data frame by Salary in descending order.
+
+```{r}
+employees <- employees %>% arrange(desc(Salary))
+print(employees)
+```
+5. Summarize data: Calculate the average salary for each department.
+
+```{r}
+avg_salary <- employees %>%
+  group_by(Department) %>%
+  summarize(Average_Salary = mean(Salary))
+print(avg_salary)
+```
+
+## Optional Exercises
+
+### Extra 1: Advanced Data Manipulation
+
+1. Group and summarize: Group the data by Department and calculate the total salary expenditure for each department.
+
+```{r}
+total_salary_dep <- employees %>%
+  group_by(Department) %>%
+  summarize(Total_Salary = sum(Salary))
+print(total_salary_dep)
+
+```
+
+2. Filter and mutate: Create a new data frame that includes only employees older than 30 and adds a column called Experience that assumes each employee has Age - 25 years of experience.
+
+```{r}
+experienced_employees <- employees %>%
+  filter(Age > 30) %>%
+  mutate(Experience = Age - 25)
+print(experienced_employees)
+```
+
+### Extra 2: Challenge
+
+1. Combine operations: Create a new data frame that includes employees from the "HR" department, adds a Bonus column (10% of salary), and sorts the data by Bonus in descending order.
+```{r}
+HR_dep_bonus <- employees %>%
+  filter(Department == "HR") %>%
+  mutate(Bonus = Salary * 0.1) %>%
+  arrange(desc(Bonus))
+print(HR_dep_bonus)
+
+```
+
+2. Visualize data: Use ggplot2 to create a bar plot showing the total salary expenditure by department.
+```{r}
+
+ggplot(total_salary_dep, aes(x = Department, y = Total_Salary, fill = Department)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Total Salary Expenditure by Department",
+       x = "Department",
+       y = "Total Salary") +
+  theme_minimal()
+```
+
+
+## Deliverables
+
+- Submitted notebook (or file) with your responses to each of the exercises.
+
+## Submission
+
+- Upon completion, add your deliverables to git. 
+- Then commit git and push your branch to the remote.
+- Make a pull request and paste the PR link in the submission field in the Student Portal.
